@@ -10,11 +10,16 @@ root = Tk()
 root.title("Tkinter 0.0")
 root.minsize(900, 500)
 
-def column_label_gen(columns, parent_name, row_num=0, sticky_var=(N, E, W)): #makes colums of labels
+def column_label_gen(columns, parent_name, row_num=0, sticky_var=(N, E, W)): #makes colums of labels input list with [NONE, x=StringVar()] for text variables
      label_start = 0
      for i in columns:
-          ttk.Label(parent_name, text=i).grid(column=label_start, row=row_num, sticky=sticky_var)
-          label_start += 1
+        if type(i) == list:
+            i[0] = ttk.Label(parent_name, textvariable=i[1])
+            i[0].grid(column=label_start, row=row_num, sticky=sticky_var)
+            i[1].set(0)
+        else:
+            ttk.Label(parent_name, text=i).grid(column=label_start, row=row_num, sticky=sticky_var)
+        label_start += 1
 
 def row_label_gen(rows, parent_name, column_num=0, sticky_var=(N, E, W)): #makes rows of labels
      label_start = 0
